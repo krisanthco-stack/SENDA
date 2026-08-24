@@ -1,0 +1,4 @@
+"D";"DINERO"
+"Q";"QUEBRADO"
+"T";"TERRENO"
+"P";"PORCENTUAL"

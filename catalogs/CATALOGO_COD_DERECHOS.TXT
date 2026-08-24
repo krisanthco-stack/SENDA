@@ -1,0 +1,6 @@
+"D";"DOMINIO"
+"H";"HABITACION"
+"N";"NUDA"
+"U";"USUFRUCTO "
+"S";"USO"
+"C";"USUF CONJ "

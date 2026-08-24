@@ -1,0 +1,20 @@
+SENDA-2026.08.24-R3
+
+ARTEFACTOS SINCRONIZADOS
+- app.py
+- SENDA_VISTA_SINCRONIZADA.html
+- assets/app_icon_propuesta2.png
+
+COMPROBACIONES OBLIGATORIAS
+- FOLIO / FINCA visible como identificador único.
+- Sin etiquetas visibles “Expediente ”, “Número de finca” ni numeración EXP-2026-.
+- Mes del movimiento visible.
+- 🚨 ALARMAS y 🏷️ CÓDIGOS en una misma fila, ambos desplegables.
+- Alertas por color dentro del FOLIO / FINCA seleccionado en CONTROL.
+- GUARDAR FOLIO, ELIMINAR FOLIO y FINALIZADO disponibles.
+- Icono definitivo Propuesta 2 / primera elección en app y HTML.
+- HTML y app comparten RELEASE_ID SENDA-2026.08.24-R3.
+
+- INICIO restaurado como módulo independiente con carga trimestral.
+- Mejoras de UX/UI aplicadas sin reordenar INFORMACIÓN SENDA, CONTROL ni GESTIÓN.
+- HTML sincronizado con INICIO, icono, FOLIO / FINCA e importación/exportación visual de GESTIÓN.
