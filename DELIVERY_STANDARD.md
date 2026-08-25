@@ -1,9 +1,40 @@
-# Estándar de entrega SENDA
+# Estándar obligatorio de entrega SENDA
 
-1. **Preservación:** nada existente se elimina, mueve, renombra o sustituye salvo solicitud expresa.
-2. **Una versión activa:** app, HTML, assets y documentación comparten el mismo `RELEASE_ID`.
-3. **Sincronización:** toda función visible modificada debe reflejarse tanto en la app como en el HTML de revisión.
-4. **Verificación:** antes de entregar se ejecutan pruebas, compilación y búsqueda de etiquetas obsoletas.
-5. **Artefacto final:** se prueba la copia extraída del ZIP, no sólo la carpeta de trabajo.
-6. **UX/UI:** una mejora visual no reordena módulos ni altera lógica salvo autorización expresa.
-7. **Identificación registral:** la interfaz utiliza `FOLIO / FINCA` con la conformación registral aprobada; no inventa numeración de expediente.
+## Regla prioritaria
+
+**Si está bien y no se solicita eliminar, se mantiene.**
+
+Una función, módulo, botón, filtro, vista, nombre, flujo o comportamiento existente no puede eliminarse, moverse, absorberse, sustituirse ni renombrarse por iniciativa del desarrollo. Sólo puede cambiarse cuando la solicitud lo indique expresamente.
+
+## Fuente única
+
+- `index.html` es la única interfaz oficial del repositorio.
+- No se entrega un “HTML sincronizado” distinto de la aplicación publicada.
+- Las mejoras visuales no pueden reacomodar la estructura funcional aprobada.
+
+## Contrato de interfaz
+
+Deben existir y mantenerse, en este orden:
+
+**INICIO | INFORMACIÓN SENDA | CONTROL | GESTIÓN**
+
+INICIO conserva carga trimestral e inventario. INFORMACIÓN SENDA conserva filtros, alarmas, códigos, exportaciones y vistas registrales. CONTROL conserva filtros y acciones por FOLIO / FINCA. GESTIÓN conserva auditoría, importación y exportación.
+
+## Identificación
+
+- Visible: **FOLIO / FINCA**.
+- Formato: `PROVINCIA-NÚMERO-DERECHO`.
+- No usar números artificiales `EXP-*`.
+- No usar cantón/distrito en el identificador visible.
+- No inventar Derecho `000` cuando el campo no viene informado.
+
+## Verificación antes de entregar
+
+1. Ejecutar todas las pruebas del repositorio.
+2. Validar sintaxis JavaScript.
+3. Buscar términos visibles prohibidos.
+4. Confirmar que sólo exista un HTML raíz: `index.html`.
+5. Crear ZIP sin `.git`, cachés ni archivos temporales.
+6. Extraer el ZIP en una carpeta limpia.
+7. Repetir pruebas y auditorías sobre esa extracción.
+8. Sólo entonces declarar la entrega terminada.

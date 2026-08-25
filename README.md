@@ -1,178 +1,66 @@
-# Registro Inmobiliario · SENDA
+# SENDA Registro Inmobiliario — R5
 
-## Entrega sincronizada R3 — 24/08/2026
+**Versión:** `SENDA-2026.08.24-R5-REPOSITORIO-LIMPIO-GITHUB-AUDITADO`
 
-Esta carpeta es una única versión activa: **SENDA-2026.08.24-R3**. `app.py` y `SENDA_VISTA_SINCRONIZADA.html` deben mostrar el mismo identificador de versión y utilizan el mismo icono definitivo `assets/app_icon_propuesta2.png`.
+Este repositorio contiene una sola aplicación oficial: **`index.html` es la única fuente de verdad visual y funcional**. No existe un HTML alternativo ni una interfaz paralela que pueda quedar desincronizada.
 
-Reglas visibles de esta versión:
+## Módulos
 
-- El identificador mostrado es **FOLIO / FINCA**, conformado como `Provincia-Número de finca-Derecho`, por ejemplo `4-200103-001`.
-- No se muestra numeración artificial de trámite.
-- INFORMACIÓN SENDA incluye **Mes del movimiento** y una misma fila con los acordeones **🚨 ALARMAS** y **🏷️ CÓDIGOS**.
-- CONTROL muestra la alerta 🟡/🔴 dentro del FOLIO / FINCA y las acciones **GUARDAR FOLIO**, **ELIMINAR FOLIO** y **FINALIZADO**.
-- GESTIÓN conserva FOLIO / FINCA, tipo de derecho, plano y auditoría de finalización.
-- El HTML se incluye como comprobación visual sincronizada; la aplicación funcional continúa siendo `app.py`.
+La navegación principal se mantiene en este orden:
 
-
-Aplicación Streamlit para cargar cortes registrales, construir una base SQLite organizada y controlar movimientos por **folio real registral** con auditoría.
+1. **INICIO** — carga trimestral de archivos o ZIP compatible e inventario de la última carga.
+2. **INFORMACIÓN SENDA** — consulta, filtros, mes, alarmas, códigos, exportaciones y vistas registrales preservadas.
+3. **CONTROL** — seguimiento por FOLIO / FINCA, alarmas por folio, Guardar, Eliminar y Finalizado con auditoría.
+4. **GESTIÓN** — folios finalizados, auditoría, filtros, importación y exportación JSON/Excel.
 
 ## Identificación registral
 
-La interfaz no inventa números de trámite ni expediente. El folio real se conforma únicamente con los datos de la fuente:
+La identificación visible es **FOLIO / FINCA**, formada como `PROVINCIA-NÚMERO-DERECHO`, por ejemplo `4-200103-001`. Cantón y distrito no forman parte del identificador visible. Si una carga no aporta Derecho suficiente, el sistema no inventa `000`; muestra el registro como **Sin folio real identificable**.
 
-`PROVINCIA - NÚMERO DE FINCA - DERECHO (3 dígitos)`
+## Ejecutar localmente
 
-Ejemplos:
-
-- `4-200103-001`
-- `4-200103-002`
-- `4-254163-000` cuando el Derecho real de la fuente es `0`.
-
-Cantón y distrito **no** forman parte del folio real visible. `FINCA_ID`, `MOVIMIENTO_ID` y `EXPEDIENTE_ID` se conservan sólo como campos técnicos internos para trazabilidad y compatibilidad.
-
-Si la fuente no aporta Derecho suficiente para construir el folio real, SENDA mantiene el movimiento sin folio identificable y lo informa; **no inventa `000` ni otro Derecho**.
-
-## Derechos
-
-Cada derecho de una misma finca se trata de forma independiente. El sistema interpreta `COD_DERECHO`:
-
-- `D`: DOMINIO
-- `H`: HABITACIÓN
-- `N`: NUDA PROPIEDAD
-- `U`: USUFRUCTO
-- `S`: USO
-- `C`: USUFRUCTO CONJUNTO
-
-Por ejemplo, `4-108604-001` puede ser NUDA PROPIEDAD y `4-108604-009` USUFRUCTO; sus titulares, movimientos, planos, estado y acciones no se mezclan.
-
-## INICIO
-
-- Conserva el módulo de carga trimestral existente.
-- Carga `.xls` tabulados, `.txt` y ZIP trimestrales.
-- Asocia cada carga a Año + Trimestre.
-- Construye/actualiza `data/registro_inmobiliario.db`.
-- Muestra el inventario de la última carga.
-- No usa numeración artificial de expediente; la identificación visible posterior es **FOLIO / FINCA**.
-
-## INFORMACIÓN SENDA
-
-- Búsqueda por cédula, nombre, apellidos, **FOLIO / FINCA**, plano y mes.
-- Códigos agrupados con Mostrar / Ocultar / MS (Mostrar Seleccionado).
-- Descarga por código en JSON o Excel.
-- Primera página de 25 registros; páginas posteriores de 20.
-- Alarmas: amarillo >60 y <90 días; rojo >=90 días.
-- Descarga SQLite y exportación completa a Excel.
-
-## CONTROL
-
-CONTROL trabaja por **folio real exacto**, no por toda la finca.
-
-Al abrir un folio muestra:
-
-- Folio real (`4-200103-001`).
-- Tipo de derecho.
-- Plano(s).
-- Titular(es) y cédula(s).
-- Hipotecas, Gravámenes, Segregaciones, Anotaciones, Cierres, Rectificaciones y otros movimientos.
-
-Acciones disponibles para el folio seleccionado:
-
-- **GUARDAR FOLIO**: guarda una referencia operativa del folio y registra operador, fecha/hora y observación.
-- **ELIMINAR FOLIO**: elimina únicamente ese folio de CONTROL/GESTIÓN, con confirmación explícita. Los archivos y tablas fuente permanecen intactos.
-- **FINALIZADO**: transfiere a GESTIÓN sólo los movimientos pendientes de ese folio real. No arrastra otros Derechos de la misma finca.
-
-El historial de auditoría permite ver quién guardó, finalizó o eliminó y cuándo ocurrió.
-
-Los botones rápidos Hipotecas, Gravámenes, Segregaciones, Anotaciones, Aplicar y Limpiar mantienen el mismo estilo visual.
-
-## GESTIÓN
-
-- Muestra exclusivamente folios/movimientos finalizados.
-- Conserva `FOLIO_REAL`, `TIPO_DERECHO`, finca, Derecho y plano.
-- Visualiza quién finalizó/registró, fecha/hora y observación.
-- Filtros por cédula, nombre, apellidos, **FOLIO / FINCA**, código, mes del movimiento, fecha y mes de finalización.
-- Importación/exportación JSON y Excel dentro del mismo módulo.
-- Importación idempotente por `MOVIMIENTO_ID` técnico interno.
-
-## Persistencia SQLite
-
-Tablas fuente/analíticas principales:
-
-- `resumen`
-- `fincas_folios`
-- `historicos`
-- `gravamenes`
-- `segregaciones`
-- `anotaciones`
-- `planos_control`
-- `alertas`
-- `top_operaciones`
-- `catalogo_operaciones`
-- `manual_codigos`
-
-Tablas operativas:
-
-- `movimientos`
-- `folios_guardados`
-- `gestion_registrados`
-- `auditoria`
-
-Las bases creadas por versiones anteriores se migran al abrirse: cuando existen Provincia, Número de finca y Derecho suficientes, se completa `FOLIO_REAL` y `TIPO_DERECHO` sin recargar los cortes.
-
-## Instalación
+No requiere dependencias de aplicación. Con Python 3:
 
 ```bash
-python -m venv .venv
+python serve.py
 ```
 
-Windows:
+Luego abra `http://127.0.0.1:8000/index.html`.
+
+También puede indicar otro puerto:
 
 ```bash
-.venv\Scripts\activate
+python serve.py --port 8080
 ```
 
-macOS/Linux:
+> Abrir `index.html` directamente como archivo permite usar la mayor parte de la aplicación, pero la instalación PWA y el Service Worker requieren HTTP/HTTPS.
 
-```bash
-source .venv/bin/activate
-```
+## Publicar en GitHub Pages
 
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
+El repositorio incluye `.github/workflows/pages.yml`. En **Settings → Pages → Source** seleccione **GitHub Actions**. Cada `push` a `main` ejecuta primero las pruebas y la auditoría de interfaz; sólo si pasan, GitHub Pages publica **la raíz exacta del repositorio**, donde `index.html` es la única interfaz. No copie ni genere otro HTML.
+
+`.nojekyll` evita transformaciones innecesarias de Jekyll. El Service Worker fuerza actualización de red y elimina cachés SENDA anteriores para que una versión vieja no siga apareciendo después de publicar una versión nueva.
+
+## Instalación PWA
+
+Al publicarse por HTTP/HTTPS, `manifest.webmanifest` y `sw.js` permiten instalar SENDA como aplicación. El Service Worker usa estrategia **network-first con recarga de caché HTTP**, `updateViaCache: none`, `skipWaiting`, `clients.claim` y limpieza de cachés SENDA anteriores. Esto reduce el riesgo de que GitHub Pages muestre una interfaz vieja después de una actualización.
+
+## Persistencia
+
+Los cambios operativos de CONTROL/GESTIÓN y las cargas adicionales se guardan en `localStorage` del navegador. No se elimina el archivo fuente embebido al usar **ELIMINAR FOLIO**; esa acción sólo retira el folio de las vistas operativas.
+
+## Datos
+
+El HTML incluye los registros base utilizados por la versión funcional de referencia. Las cargas nuevas se procesan localmente en el navegador. Los `.xls` registrales de SENDA que son texto tabulado se leen como texto; ZIP usa las capacidades de descompresión disponibles en navegadores modernos.
 
 ## Pruebas
 
 ```bash
-PYTHONPATH=. pytest -q
-python -m py_compile app.py src/*.py
+python -m unittest discover -s tests -v
 ```
 
-La verificación de integración carga el corte de Sarapiquí del 01-06-2026 y valida 8.837 movimientos consolidados, conformación de folios reales, separación de Derechos, Guardar, Finalizar, Eliminar y preservación de folios hermanos.
+Para validar JavaScript inline se extrae el bloque `<script>` y se ejecuta `node --check`; la auditoría de entrega también repite las pruebas sobre el ZIP extraído.
 
-## Archivos principales
+## Regla principal de preservación
 
-- `app.py`: interfaz Streamlit.
-- `src/registro.py`: motor registral original preservado.
-- `src/senda.py`: folios reales, derechos, filtros, paginación y alarmas.
-- `src/database.py`: SQLite, Guardar/Eliminar/Finalizar y auditoría.
-- `src/io_tools.py`: ZIP, JSON y Excel.
-- `assets/app_icon_propuesta2.png`: icono definitivo.
-- `tests/`: pruebas automatizadas.
-
-## Nota
-
-La clasificación automática es una herramienta de control y apoyo analítico. No sustituye certificaciones registrales, estudio de título ni revisión jurídica del asiento original.
-
-## Corrección de interfaz FOLIO / FINCA
-
-La identificación visible del registro se presenta como un único **FOLIO / FINCA**, por ejemplo `4-200103-001`. La interfaz no muestra un número de expediente inventado ni divide el identificador en campos visuales separados de finca y derecho. El **tipo de derecho** (Dominio, Usufructo, Nuda Propiedad, etc.) y el **plano** se conservan como datos descriptivos del folio.
-
-## Regla de preservación funcional
-
-- Si un módulo, botón, filtro o flujo existente funciona y no se solicita eliminarlo, se conserva.
-- Las mejoras visuales no reordenan módulos ni cambian la lógica.
-- INICIO conserva la carga trimestral; INFORMACIÓN SENDA, CONTROL y GESTIÓN conservan sus funciones.
-- La identificación visible usa **FOLIO / FINCA**, por ejemplo `4-200103-001`; no se muestra numeración artificial de expediente.
-- `app.py`, el HTML y el icono deben pertenecer al mismo `RELEASE_ID`.
+Consulte `DELIVERY_STANDARD.md`. La regla obligatoria es: **si una función está bien y no se solicita explícitamente eliminarla, se mantiene**.
