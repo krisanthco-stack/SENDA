@@ -1,55 +1,39 @@
-# Auditoría profunda de visualización GitHub Pages — SENDA R5
+# Auditoría GitHub y visual — SENDA R6
 
-**Versión auditada:** `SENDA-2026.08.24-R5-REPOSITORIO-LIMPIO-GITHUB-AUDITADO`
+**Release:** `SENDA-2026.08.25-R6-REVISION-FOLIO-GESTION`
 
-## Fuente única de interfaz
+## Fuente única
 
-- `index.html` es la única interfaz HTML en la raíz.
-- GitHub Pages publica la raíz exacta mediante `.github/workflows/pages.yml`.
-- `.nojekyll` evita transformaciones de Jekyll.
-- No existe un segundo HTML que pueda divergir visualmente.
+`index.html` es la única interfaz HTML oficial. GitHub Pages publica la raíz del repositorio después de ejecutar las pruebas.
 
-## Regresiones bloqueadas
+## Reglas visuales verificadas
 
-- Navegación obligatoria y en orden: **INICIO | INFORMACIÓN SENDA | CONTROL | GESTIÓN**.
-- INICIO conserva la carga trimestral y su inventario.
-- INFORMACIÓN SENDA conserva filtros, Alarmas + Códigos y las vistas registrales originales.
-- CONTROL conserva Guardar Folio, Eliminar Folio, Finalizado, filtros rápidos y auditoría.
-- GESTIÓN conserva filtros, auditoría, importación JSON/Excel y exportación JSON/Excel.
-- Descarga de la base SQLite preservada.
-- No se forma ni se muestra un FOLIO / FINCA con Derecho `000`; esos registros quedan como **Sin folio real identificable**.
+- Navegación: INICIO | INFORMACIÓN SENDA | CONTROL | GESTIÓN.
+- CONTROL conserva disposición y usa botones rápidos compactos; la opción activa cambia de color.
+- CÉDULAS JURÍDICAS está disponible en CONTROL.
+- INFORMACIÓN SENDA incorpora SELECCIONAR sin reacomodar las vistas existentes.
+- Una selección activa oculta los demás FOLIOS / FINCAS hasta cancelar o finalizar.
+- GESTIÓN incorpora REGRESAR A INFORMACIÓN SENDA y las exportaciones BASE GESTIÓN JSON / EXCEL.
+- El icono oficial R6 se usa en encabezado y PWA.
 
-## Protección contra una versión vieja en GitHub
+## Barreras contra errores anteriores
 
-- El Service Worker se registra con `updateViaCache: 'none'`.
-- Se ejecuta `reg.update()` en cada carga HTTP/HTTPS.
-- El Service Worker usa estrategia network-first con `cache: 'reload'`.
-- En activación elimina cachés `senda-*` anteriores.
-- `controllerchange` provoca una única recarga segura para adoptar la nueva versión.
-- El caché de esta entrega es `senda-r5-github-audit-v3`.
+- No existe HTML paralelo.
+- No se usa EXP-2026 ni la etiqueta visual Expediente como identificador.
+- No se fabrica Derecho `000`.
+- Service Worker network-first y cache versionada R6.
+- GitHub Actions debe aprobar pruebas antes de publicar.
 
-## Migración del navegador
+## Resultado de auditoría visual R6
 
-Al iniciar, el sistema limpia datos y estados locales heredados que terminen en `-000`, conserva los estados válidos y reescribe `localStorage`. Esta migración se valida mediante `tests/js_logic_test.js`.
+La interfaz se renderizó en Chromium a partir de la misma `index.html` oficial. El entorno de auditoría bloquea por política las URL `127.0.0.1` y `file://`, por lo que el documento se inyectó directamente en una página vacía de Chromium sin modificar su estructura ni lógica; únicamente se sustituyó `localStorage` por almacenamiento temporal de memoria para ejecutar la prueba.
 
-## Auditoría visual
+Resultados:
 
-Se verificó la composición estática real con Chromium en 1440×1000 y 390×844:
-
-- Sin desbordamiento horizontal en INICIO, INFORMACIÓN SENDA, CONTROL ni GESTIÓN.
-- En móvil los cuatro botones principales permanecen visibles en dos filas.
-- INICIO mantiene el módulo de carga en su posición y formato.
-- Icono definitivo presente.
-- Alarmas y Códigos conservan la disposición aprobada.
-
-## Barrera de publicación
-
-GitHub Actions ejecuta antes del despliegue:
-
-1. contrato de preservación Python;
-2. contrato funcional JavaScript;
-3. validación de sintaxis JavaScript;
-4. comprobación de interfaz HTML única;
-5. rechazo de etiquetas visibles heredadas no permitidas.
-
-Si falla cualquiera de estas verificaciones, GitHub Pages no publica la entrega.
+- Escritorio 1440 px: INICIO, INFORMACIÓN SENDA, CONTROL y GESTIÓN sin desbordamiento horizontal.
+- INFORMACIÓN SENDA: 19 botones SELECCIONAR visibles en la página inicial auditada.
+- Revisión exclusiva: 1 único FOLIO / FINCA visible; panel y botón FINALIZAR presentes.
+- FINALIZAR: folio ausente en INFORMACIÓN SENDA y presente en GESTIÓN.
+- REGRESAR: folio nuevamente presente en INFORMACIÓN SENDA y ausente en GESTIÓN.
+- CONTROL: CÉDULAS JURÍDICAS queda en estado activo por color.
+- Móvil 390 px: ancho del documento 390 px; los 4 módulos permanecen accesibles y GESTIÓN queda dentro del viewport.

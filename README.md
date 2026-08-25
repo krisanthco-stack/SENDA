@@ -1,6 +1,6 @@
-# SENDA Registro Inmobiliario — R5
+# SENDA Registro Inmobiliario — R6
 
-**Versión:** `SENDA-2026.08.24-R5-REPOSITORIO-LIMPIO-GITHUB-AUDITADO`
+**Versión:** `SENDA-2026.08.25-R6-REVISION-FOLIO-GESTION`
 
 Este repositorio contiene una sola aplicación oficial: **`index.html` es la única fuente de verdad visual y funcional**. No existe un HTML alternativo ni una interfaz paralela que pueda quedar desincronizada.
 
@@ -8,10 +8,10 @@ Este repositorio contiene una sola aplicación oficial: **`index.html` es la ún
 
 La navegación principal se mantiene en este orden:
 
-1. **INICIO** — carga trimestral de archivos o ZIP compatible e inventario de la última carga.
-2. **INFORMACIÓN SENDA** — consulta, filtros, mes, alarmas, códigos, exportaciones y vistas registrales preservadas.
-3. **CONTROL** — seguimiento por FOLIO / FINCA, alarmas por folio, Guardar, Eliminar y Finalizado con auditoría.
-4. **GESTIÓN** — folios finalizados, auditoría, filtros, importación y exportación JSON/Excel.
+1. **INICIO** — carga trimestral de archivos individuales, RAR o ZIP e inventario de la última carga.
+2. **INFORMACIÓN SENDA** — consulta, filtros, mes, alarmas, códigos, vistas registrales preservadas y selección exclusiva de un FOLIO / FINCA para revisión.
+3. **CONTROL** — seguimiento por FOLIO / FINCA, botones compactos de Hipotecas, Gravámenes, Segregaciones, Anotaciones y Cédulas Jurídicas, con estado activo por color; Guardar, Eliminar y Finalizado con auditoría.
+4. **GESTIÓN** — folios finalizados, REGRESAR A INFORMACIÓN SENDA, auditoría, filtros, importación JSON/Excel y base histórica de trámites realizados en JSON/Excel.
 
 ## Identificación registral
 
@@ -64,3 +64,28 @@ Para validar JavaScript inline se extrae el bloque `<script>` y se ejecuta `node
 ## Regla principal de preservación
 
 Consulte `DELIVERY_STANDARD.md`. La regla obligatoria es: **si una función está bien y no se solicita explícitamente eliminarla, se mantiene**.
+
+
+## Carga comprimida RAR y ZIP
+
+El módulo **INICIO** acepta archivos individuales, `.zip` y `.rar` sin cambiar la estructura visual aprobada. ZIP usa primero el extractor nativo incluido en `index.html`; si el método de compresión no es compatible, y para RAR, se utiliza `7z-wasm@1.2.0` (7-Zip WebAssembly) fijado a una versión concreta. El motor se carga desde jsDelivr en la primera utilización y el Service Worker lo guarda en caché para reutilizarlo. Los archivos se procesan en el navegador; SENDA no los envía a un servidor propio.
+
+## Instalación de SENDA
+
+El encabezado incluye **INSTALAR SENDA**. En navegadores con soporte PWA usa el evento nativo `beforeinstallprompt`; en Safari/iOS muestra la ruta **Compartir → Añadir a pantalla de inicio**. La aplicación conserva `index.html` como única interfaz oficial.
+
+## Dependencia de descompresión
+
+RAR y el respaldo ZIP usan `7z-wasm` versión 1.2.0, proyecto de `use-strict/7z-wasm`, con licencia GNU LGPL y la restricción unRAR indicada por el propio proyecto. La dependencia está referenciada por URL versionada; no se modifica ni se utiliza para crear archivos RAR.
+
+## Flujo de revisión R6
+
+- En **INFORMACIÓN SENDA**, **SELECCIONAR** fija un único FOLIO / FINCA en revisión y oculta los demás resultados mientras esa selección está activa.
+- **FINALIZAR REVISIÓN DEL FOLIO / FINCA** retira ese folio de pendientes y lo traslada a **GESTIÓN**, conservando movimientos, tipo de derecho, código, tipo de gestión, usuario, fecha/hora y observación.
+- En **GESTIÓN**, **REGRESAR A INFORMACIÓN SENDA** revierte el estado sin destruir el historial y deja trazabilidad de la devolución.
+- **BASE GESTIÓN JSON** y **BASE GESTIÓN EXCEL** exportan trámites realizados y las gestiones asociadas, incluyendo Hipotecas, Gravámenes, Segregaciones, Anotaciones y otras categorías detectadas.
+- Un FOLIO / FINCA no puede figurar simultáneamente como pendiente y finalizado.
+
+## Icono R6
+
+El único icono oficial es `assets/app_icon_senda_r6.png`. Lo usan el encabezado, el manifiesto PWA, el Service Worker y la instalación desde GitHub Pages.

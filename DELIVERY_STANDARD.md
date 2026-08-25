@@ -38,3 +38,13 @@ INICIO conserva carga trimestral e inventario. INFORMACIÓN SENDA conserva filtr
 6. Extraer el ZIP en una carpeta limpia.
 7. Repetir pruebas y auditorías sobre esa extracción.
 8. Sólo entonces declarar la entrega terminada.
+
+
+## Barreras R6 obligatorias
+
+- La selección de revisión es exclusiva por FOLIO / FINCA.
+- FINALIZAR debe retirar el folio de INFORMACIÓN SENDA y hacerlo visible en GESTIÓN en la misma operación.
+- REGRESAR debe retirar el estado finalizado de GESTIÓN y devolver el folio a pendientes, conservando auditoría.
+- CONTROL mantiene botones rápidos compactos y CÉDULAS JURÍDICAS con estado activo por color.
+- La base de Gestión debe poder exportarse en JSON y Excel con el tipo de gestión correspondiente.
+- El icono oficial de R6 es único y no se conserva un icono anterior dentro de `assets/`.

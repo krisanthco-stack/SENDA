@@ -1,9 +1,13 @@
-const CACHE_NAME = 'senda-r5-github-audit-v3';
+const CACHE_NAME = 'senda-r6-review-folio-gestion-v1';
+const ARCHIVE_RUNTIME = [
+  'https://cdn.jsdelivr.net/npm/7z-wasm@1.2.0/7zz.umd.js',
+  'https://cdn.jsdelivr.net/npm/7z-wasm@1.2.0/7zz.wasm'
+];
 const APP_SHELL = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/app_icon_propuesta2.png',
+  './assets/app_icon_senda_r6.png',
   './data/registro_inmobiliario_base.sqlite'
 ];
 
@@ -24,7 +28,7 @@ self.addEventListener('activate', event => {
 async function networkFirst(request, fallback) {
   try {
     const response = await fetch(request, {cache:'reload'});
-    if (response && response.ok && new URL(request.url).origin === self.location.origin) {
+    if (response && response.ok && (new URL(request.url).origin === self.location.origin || ARCHIVE_RUNTIME.includes(request.url))) {
       const copy = response.clone();
       caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
     }
@@ -40,7 +44,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(networkFirst(event.request, './index.html'));
     return;
   }
-  if (new URL(event.request.url).origin === self.location.origin) {
+  if (new URL(event.request.url).origin === self.location.origin || ARCHIVE_RUNTIME.includes(event.request.url)) {
     event.respondWith(networkFirst(event.request));
   }
 });

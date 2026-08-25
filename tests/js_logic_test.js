@@ -69,7 +69,7 @@ vm.createContext(context);
 vm.runInContext(source, context);
 const run = expr => vm.runInContext(expr, context);
 
-assert(run('RELEASE_ID').includes('GITHUB-AUDITADO'), 'Release visible no corresponde a la versión auditada');
+assert(run('RELEASE_ID') === 'SENDA-2026.08.25-R6-REVISION-FOLIO-GESTION', 'Release visible no corresponde a R6');
 assert(run('SEED_DATA.length') === 8837, 'La base embebida debe conservar 8.837 movimientos');
 assert(run("SEED_DATA.filter(r=>/-000$/.test(r.folio||'')).length") === 0, 'No puede sobrevivir un derecho artificial -000');
 assert(run("formatFolio('4','200103','1')") === '4-200103-001', 'Formato FOLIO / FINCA incorrecto');

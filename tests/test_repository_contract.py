@@ -26,10 +26,10 @@ class RepositoryContractTests(unittest.TestCase):
         index = (ROOT / "index.html").read_text(encoding="utf-8") if (ROOT / "index.html").exists() else ""
         self.assertIn('rel="manifest" href="manifest.webmanifest"', index)
         self.assertIn("serviceWorker.register", index)
-        self.assertIn("assets/app_icon_propuesta2.png", index)
+        self.assertIn("assets/app_icon_senda_r6.png", index)
 
     def test_release_identifier_is_consistent_and_not_duplicated(self):
-        release = "SENDA-2026.08.24-R5-REPOSITORIO-LIMPIO-GITHUB-AUDITADO"
+        release = "SENDA-2026.08.25-R6-REVISION-FOLIO-GESTION"
         index = (ROOT / "index.html").read_text(encoding="utf-8")
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
         self.assertEqual(index.count(release), 2, "index debe mostrar y declarar una sola versión lógica")
@@ -40,7 +40,7 @@ class RepositoryContractTests(unittest.TestCase):
         p = ROOT / "README.md"
         self.assertTrue(p.exists())
         text = p.read_text(encoding="utf-8")
-        self.assertIn("SENDA-2026.08.24-R5-REPOSITORIO-LIMPIO", text)
+        self.assertIn("SENDA-2026.08.25-R6-REVISION-FOLIO-GESTION", text)
         self.assertIn("index.html", text)
         self.assertIn("única fuente de verdad", text.lower())
 
@@ -91,7 +91,7 @@ class GitHubPagesAuditTests(unittest.TestCase):
         self.assertIn("data/registro_inmobiliario_base.sqlite", index)
 
     def test_service_worker_shell_files_exist_in_github_artifact(self):
-        for rel in ("index.html", "manifest.webmanifest", "assets/app_icon_propuesta2.png", "data/registro_inmobiliario_base.sqlite"):
+        for rel in ("index.html", "manifest.webmanifest", "assets/app_icon_senda_r6.png", "data/registro_inmobiliario_base.sqlite"):
             self.assertTrue((ROOT / rel).exists(), f"Recurso PWA ausente: {rel}")
         index = (ROOT / "index.html").read_text(encoding="utf-8")
         self.assertNotRegex(index, r'(?:href|src)="/(?!/)')
