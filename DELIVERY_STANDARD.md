@@ -1,50 +1,10 @@
-# Estándar obligatorio de entrega SENDA
+# Regla de entrega SENDA 02
 
-## Regla prioritaria
-
-**Si está bien y no se solicita eliminar, se mantiene.**
-
-Una función, módulo, botón, filtro, vista, nombre, flujo o comportamiento existente no puede eliminarse, moverse, absorberse, sustituirse ni renombrarse por iniciativa del desarrollo. Sólo puede cambiarse cuando la solicitud lo indique expresamente.
-
-## Fuente única
-
-- `index.html` es la única interfaz oficial del repositorio.
-- No se entrega un “HTML sincronizado” distinto de la aplicación publicada.
-- Las mejoras visuales no pueden reacomodar la estructura funcional aprobada.
-
-## Contrato de interfaz
-
-Deben existir y mantenerse, en este orden:
-
-**INICIO | INFORMACIÓN SENDA | CONTROL | GESTIÓN**
-
-INICIO conserva carga trimestral e inventario. INFORMACIÓN SENDA conserva filtros, alarmas, códigos, exportaciones y vistas registrales. CONTROL conserva filtros y acciones por FOLIO / FINCA. GESTIÓN conserva auditoría, importación y exportación.
-
-## Identificación
-
-- Visible: **FOLIO / FINCA**.
-- Formato: `PROVINCIA-NÚMERO-DERECHO`.
-- No usar números artificiales `EXP-*`.
-- No usar cantón/distrito en el identificador visible.
-- No inventar Derecho `000` cuando el campo no viene informado.
-
-## Verificación antes de entregar
-
-1. Ejecutar todas las pruebas del repositorio.
-2. Validar sintaxis JavaScript.
-3. Buscar términos visibles prohibidos.
-4. Confirmar que sólo exista un HTML raíz: `index.html`.
-5. Crear ZIP sin `.git`, cachés ni archivos temporales.
-6. Extraer el ZIP en una carpeta limpia.
-7. Repetir pruebas y auditorías sobre esa extracción.
-8. Sólo entonces declarar la entrega terminada.
-
-
-## Barreras R6 obligatorias
-
-- La selección de revisión es exclusiva por FOLIO / FINCA.
-- FINALIZAR debe retirar el folio de INFORMACIÓN SENDA y hacerlo visible en GESTIÓN en la misma operación.
-- REGRESAR debe retirar el estado finalizado de GESTIÓN y devolver el folio a pendientes, conservando auditoría.
-- CONTROL mantiene botones rápidos compactos y CÉDULAS JURÍDICAS con estado activo por color.
-- La base de Gestión debe poder exportarse en JSON y Excel con el tipo de gestión correspondiente.
-- El icono oficial de R6 es único y no se conserva un icono anterior dentro de `assets/`.
+1. SENDA 02 es independiente de SENDA R6; R6 no se modifica.
+2. `index.html` es la única fuente visual oficial de SENDA 02.
+3. Si una función existente está bien y no se solicita eliminar, se conserva.
+4. No usar “Expediente”, `EXP-...`, “Número de finca” ni `-000` como folio real.
+5. No se considera aplicado un cambio hasta comprobarlo en el mismo artefacto que verá el usuario.
+6. GitHub Pages debe publicar la misma raíz probada y no una recreación paralela.
+7. El caché PWA de SENDA 02 usa exclusivamente prefijo `senda02-`.
+8. Antes de entregar se prueba el ZIP ya extraído.

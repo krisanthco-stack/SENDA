@@ -1,19 +1,13 @@
 {
-  "name": "SENDA Registro Inmobiliario",
-  "short_name": "SENDA",
-  "description": "Carga trimestral, revisión exclusiva por FOLIO / FINCA, control y gestión auditada.",
-  "start_url": "./index.html",
+  "name": "SENDA 02 · Registro Inmobiliario",
+  "short_name": "SENDA 02",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f6f9f8",
-  "theme_color": "#0b3559",
-  "lang": "es-CR",
+  "background_color": "#f4f7fb",
+  "theme_color": "#062b53",
+  "description": "Sistema SENDA 02 para revisión y gestión de FOLIO / FINCA",
   "icons": [
-    {
-      "src": "assets/app_icon_senda_r6.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    {"src":"assets/app_icon_senda02.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
